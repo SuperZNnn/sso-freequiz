@@ -1,0 +1,59 @@
+/*Importar Fontes*/
+@import url('https://fonts.googleapis.com/css2?family=Salsa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/*Globais*/
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/*Paleta de cores*/
+:root {
+    --firstColor: #F294C8;
+    --secondColor: #F279D2;
+    --thirdColor: #BD59D9;
+    --fourthColor: #6232A6;
+    --fifthColor: #262473;
+}
+
+/*Animações*/
+@keyframes toastShow {
+    0%{
+        z-index: -1;
+        transform: translate(-50%,-7.5vh);
+        opacity: 0;
+    }
+    99%{
+        z-index: -1;
+    }
+    100%{
+        z-index: 0;
+        transform: translate(-50%,0);
+        opacity: 1;
+    }
+}
+@keyframes toastHide {
+    100%{
+        z-index: -1;
+        transform: translate(-50%,-7.5vh);
+        opacity: 0;
+    }
+    1%{
+        z-index: -1;
+    }
+    0%{
+        z-index: 0;
+        transform: translate(-50%,0);
+        opacity: 1;
+    }
+}
+@keyframes loadbar {
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 100%;
+    }
+}
