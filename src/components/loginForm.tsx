@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { useLocation, useNavigate } from "react-router-dom"
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SsoApi } from "../services/api";
 
 const LoginForm = () => {
     const navigate = useNavigate()
@@ -16,7 +17,13 @@ const LoginForm = () => {
     });
 
     const onSubmit = (data:any) => {
-        console.log(data)
+        SsoApi.tryLogin(data.email, data.password)
+        .then(res=>{
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     }
 
 

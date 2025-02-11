@@ -74,6 +74,10 @@ export const FormContainer = styled.main`
                 }
             }
 
+            button:disabled{
+                cursor: wait;
+            }
+
             .inputs-container{
                 position: relative;
                 top: 42.5%;

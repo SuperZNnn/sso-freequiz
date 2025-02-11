@@ -87,7 +87,11 @@ export const RegisterPageCotainer = styled.main`
                 width: 29vh
             }
             button.half{
-                width: 15vh
+                width: 15vh;
+
+                &:disabled{
+                    cursor: wait;
+                }
             }
 
             .see{

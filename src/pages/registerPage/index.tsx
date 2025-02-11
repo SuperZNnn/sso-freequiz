@@ -14,6 +14,9 @@ const RegisterPage = ({addMessage}: {addMessage: (message:Toasttype) => void}) =
     
     const [codeError, setCodeError] = useState<string | null>()
     const [emailError, setEmailError] = useState<string  | null>()
+    const [nameError, setNameError] = useState<string  | null>()
+
+    const [sendButtonStatus, setSendButtonStatus] = useState<boolean>(true)
 
     useEffect(()=>{
         if (!location.state){
@@ -69,10 +72,12 @@ const RegisterPage = ({addMessage}: {addMessage: (message:Toasttype) => void}) =
                 <h2>Registre-se</h2>
 
                 <div className="input-group">
-                    <input type="text" placeholder="Nome"
+                    <input type="text" placeholder="Nome" id="name-input"
                         {...register("name")}
                     />
-                    {errors.name?<p>{errors.name.message}</p>:null}
+                    {errors.name&&!nameError?<p>{errors.name.message}</p>:null}
+                    {nameError?<p>{nameError}</p>:null}
+
                 </div>
                 <div className="input-group">
                     <input type="text" placeholder="E-mail" id="email-input"
@@ -90,32 +95,41 @@ const RegisterPage = ({addMessage}: {addMessage: (message:Toasttype) => void}) =
                             {...register("code")}
                         />
                         
-                        <button type="button" className="half"
+                        <button type="button" className="half" disabled={!sendButtonStatus}
                             onClick={async () => {
                                 const isValid = await trigger("email")
 
                                 if (isValid){
-                                    const input = document.querySelector<HTMLInputElement>("#email-input")
-                                    if (input){
-                                        SsoApi.getCode(input.value)
-                                        .then((data)=>{
-                                            console.log(data)
+                                    const inputEmail = document.querySelector<HTMLInputElement>("#email-input")
+                                    const inputName = document.querySelector<HTMLInputElement>('#name-input')
+                                    if (inputEmail){
+                                        if (inputName?.value && inputName.value.length > 0){
+                                            setNameError(null)
+                                            setSendButtonStatus(false)
 
-                                            if (data?.status === 201){
-                                                addMessage({message: 'Código enviado para o seu E-mail',time:3,type:'success'})
-                                            }
-                                            else if (data?.status === 200){
-                                                addMessage({message: 'Já existe um código no seu E-mail',time:3,type:'warn'})
-                                            }
-                                            
-                                        })
-                                        .catch(err=>{
-                                            
+                                            SsoApi.getCode(inputEmail.value, inputName.value)
+                                            .then((data)=>{
+                                                if (data?.status === 201){
+                                                    addMessage({message: 'Código enviado para o seu E-mail',time:3,type:'success'})
+                                                }
+                                                else if (data?.status === 200){
+                                                    addMessage({message: 'Já existe um código no seu E-mail',time:3,type:'warn'})
+                                                }
+                                                
+                                                setSendButtonStatus(true)
+                                            })
+                                            .catch(err=>{
+                                                if (err?.status === 401){
+                                                    addMessage({message: 'E-mail já cadastrado!',time: 3,type:'error'})
+                                                }
 
-                                            if (err?.status === 401){
-                                                addMessage({message: 'E-mail já cadastrado!',time: 3,type:'error'})
-                                            }
-                                        })
+                                                setSendButtonStatus(true)
+                                            })
+                                        }
+                                        else{
+                                            setNameError('Insira seu nome')
+                                            document.querySelector<HTMLInputElement>("#name-input")?.focus()
+                                        }
                                     }
                                 }
                                 else{
