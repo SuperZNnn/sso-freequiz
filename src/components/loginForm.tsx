@@ -3,10 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom"
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SsoApi } from "../services/api";
+import { useState } from "react";
+import { Toasttype } from "../types/toasts";
 
-const LoginForm = () => {
+const LoginForm = ({addMessage}: {addMessage: (message: Toasttype)=>void}) => {
     const navigate = useNavigate()
     const location = useLocation()
+
+    const [sendButtonState, setSendButtonState] = useState<boolean>(true)
     
     const schema = Yup.object({
         email: Yup.string().required('E-mail é obrigatório').email('E-mail inválido'),
@@ -17,12 +21,25 @@ const LoginForm = () => {
     });
 
     const onSubmit = (data:any) => {
+        setSendButtonState(false)
+
         SsoApi.tryLogin(data.email, data.password)
-        .then(res=>{
-            console.log(res)
+        .then(()=>{
+            window.location.href = location.state
+            setSendButtonState(true)
         })
         .catch(err=>{
-            console.log(err)
+            if (err.status === 401){
+                addMessage({message: 'Senha incorreta!', time: 3, type: 'error'})
+            }
+            else if (err.status === 404){
+                addMessage({message: 'Usuário não encontrado!', time: 3, type: 'error'})
+            }
+            else{
+                console.log(err)
+                addMessage({message: 'Erro interno, tente novamente', time: 3, type: 'error'})
+            }
+            setSendButtonState(true)
         })
     }
 
@@ -49,7 +66,7 @@ const LoginForm = () => {
                 }}>Esqueceu a senha?</h3>
 
                 <div className="buttons-container">
-                    <button>Fazer Login</button>
+                    <button disabled={!sendButtonState}>Fazer Login</button>
                     <button type="button" onClick={() => {
                         navigate('/register', {state: location.state})
                     }}>Registrar-se</button>

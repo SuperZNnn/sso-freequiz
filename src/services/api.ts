@@ -3,6 +3,16 @@ import axios from "axios";
 export const ApiPrefix = 'http://localhost:3000'
 
 export class SsoApi {
+    static async validateCallbackUrl (url: string){
+        try{
+            const response = await axios.get(`${ApiPrefix}/sso/authorizeCallback/${encodeURIComponent(url)}`)
+            return response
+        }
+        catch (err){
+            throw err
+        }
+    }
+
     static async getCode (email: string, name: string) {
         try{
             const response = await axios.post(`${ApiPrefix}/sso/createRegisterCode`, {email: email, name: name})

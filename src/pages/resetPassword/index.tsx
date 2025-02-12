@@ -39,7 +39,7 @@ const ResetPasswordPage = ({addMessage}: {addMessage: (message: Toasttype)=>void
     const onSubmit = (data: any) => {
         SsoApi.resetPassword(email?email:'', token?token:'', data.password)
         .then(()=>{
-            addMessage({message: 'Senha alterada', time: 5, type: 'success'})
+            window.location.href = sValue?sValue:'http://localhost:4200'
         })
         .catch(err=>{
             if (err.status === 400){

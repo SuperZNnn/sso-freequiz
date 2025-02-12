@@ -52,7 +52,7 @@ const RegisterPage = ({addMessage}: {addMessage: (message:Toasttype) => void}) =
         SsoApi.testCode(data.email, data.code, data.name, data.password)
         .then(res=>{
             if (res?.status === 201){
-                addMessage({message: 'Usuário cadastrado com sucesso', type: 'success', time: 5})
+                window.location.href = location.state
                 setCodeError(null)
             }
         })
