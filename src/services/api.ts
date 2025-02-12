@@ -43,19 +43,27 @@ export class SsoApi {
         }
     }
 
-    static async teste (){
-        try{
-            const response = await axios.get(`${ApiPrefix}/sso/verifySession`, { withCredentials:true })
-            console.log(response)
-        }
-        catch (err){
-            console.log(err)
-        }
-    }
-
     static async sendEmailResetPassword (email: string, callback: string){
         try{
             const response = await axios.post(`${ApiPrefix}/sso/sendResetPasswordEmail/${callback}`, {email: email})
+            return response
+        }
+        catch (err){
+            throw err
+        }
+    }
+    static async verifyResetToken (email: string, token: string){
+        try{
+            const response = await axios.get(`${ApiPrefix}/sso/verifyResetToken/${email}/${token}`)
+            return response
+        }
+        catch (err){
+            throw err
+        }
+    }
+    static async resetPassword (email: string, token: string, password: string){
+        try{
+            const response = await axios.post(`${ApiPrefix}/sso/changePassword/${email}/${token}`, {password: password})
             return response
         }
         catch (err){

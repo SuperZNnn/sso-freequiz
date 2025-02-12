@@ -172,9 +172,7 @@ const RegisterPage = ({addMessage}: {addMessage: (message:Toasttype) => void}) =
                         navigate('/', {state: location.state})
                     }}
                 >Já possui uma conta? <span>Faça login</span></h3>
-                <button className="register" onClick={() => {
-
-                }}>Registrar</button>
+                <button className="register">Registrar</button>
             </form>
         </RegisterPageCotainer> 
     )

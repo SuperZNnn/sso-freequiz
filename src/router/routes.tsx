@@ -5,7 +5,7 @@ import RegisterPage from "../pages/registerPage";
 import { ToastsContainer } from "../components/toasts";
 import { useState } from "react";
 import { Toasttype } from "../types/toasts";
-import TestePage from "../pages/teste";
+import ResetPasswordPage from "../pages/resetPassword";
 
 const AppRoutes = () => {
     const [toastArray, setToastArray] = useState<Toasttype[]>([])
@@ -23,8 +23,7 @@ const AppRoutes = () => {
                 <Route path="/forgotpassword" element={<InitialRedirect addMessage={addMessage}/>}/>
                 <Route path="/callbackfor/:url" element={<CallbackFor/>}/>
                 <Route path="/register" element={<RegisterPage addMessage={addMessage}/>}/>
-
-                <Route path="/teste" element={<TestePage/>}/>
+                <Route path="/resetpassword/:email/:token" element={<ResetPasswordPage addMessage={addMessage}/>}/>
             </Routes>
         </>
         
