@@ -52,6 +52,15 @@ export class SsoApi {
             throw err
         }
     }
+    static async firebaseLogin (token: string){
+        try{
+            const response = await axios.post(`${ApiPrefix}/sso/firebaseLogin`, {token: token})
+            return response
+        }
+        catch (err){
+            throw err
+        }
+    }
 
     static async sendEmailResetPassword (email: string, callback: string){
         try{
