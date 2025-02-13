@@ -10,6 +10,11 @@ export const FormContainer = styled.main`
     justify-content: center;
     align-items: center;
 
+    button.login-with-google{
+        position: absolute;
+        
+    }
+
     section{
         background-color: rgba(218, 218, 218, .7);
         width: 45vh;

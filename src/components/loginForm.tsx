@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SsoApi } from "../services/api";
 import { useState } from "react";
 import { Toasttype } from "../types/toasts";
+import { auth, googleProvider } from "../config/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const LoginForm = ({addMessage}: {addMessage: (message: Toasttype)=>void}) => {
     const navigate = useNavigate()
@@ -72,9 +74,21 @@ const LoginForm = ({addMessage}: {addMessage: (message: Toasttype)=>void}) => {
                     }}>Registrar-se</button>
                 </div>
             </div>
-
-            
+            <button className="login-with-google" type="button"
+                onClick={() => {
+                    signInWithPopup(auth,googleProvider)
+                    .then(res=>{
+                        if (typeof res.user === 'object' && 'accessToken' in res.user){
+                            SsoApi.firebaseLogin(res.user.accessToken as string)
+                        }
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                }}
+            >Login Firebase Google</button>
         </form>
+        
     )
 }
 export default LoginForm
