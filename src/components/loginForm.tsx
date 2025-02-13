@@ -74,19 +74,37 @@ const LoginForm = ({addMessage}: {addMessage: (message: Toasttype)=>void}) => {
                     }}>Registrar-se</button>
                 </div>
             </div>
-            <button className="login-with-google" type="button"
-                onClick={() => {
-                    signInWithPopup(auth,googleProvider)
-                    .then(res=>{
-                        if (typeof res.user === 'object' && 'accessToken' in res.user){
-                            SsoApi.firebaseLogin(res.user.accessToken as string)
-                        }
-                    })
-                    .catch(err=>{
-                        console.log(err)
-                    })
-                }}
-            >Login Firebase Google</button>
+
+            <div className="third-party-login">
+                <h3>Continue com</h3>
+                <div className="bts-container">
+                    <button type="button"
+                        onClick={() => {
+                            signInWithPopup(auth,googleProvider)
+                            .then(res=>{
+                                if (typeof res.user === 'object' && 'accessToken' in res.user){
+                                    SsoApi.firebaseLogin(res.user.accessToken as string)
+                                    .then(res=>{
+                                        if (res.status === 201 || res.status === 202){
+                                            window.location.href = location.state
+                                        }
+                                    })
+                                    .catch(()=>{
+                                        addMessage({message: 'Erro interno, tente novamente', time: 3, type: 'error'})
+                                    })
+                                }
+                            })
+                            .catch(err=>{
+                                console.log(err)
+                            })
+                        }}
+                    >
+                        <img alt="Google" src="/assets/images/google_logo.png"/>
+                        <p>Google</p>
+                    </button>
+                    
+                </div>
+            </div>
         </form>
         
     )

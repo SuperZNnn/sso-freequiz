@@ -55,7 +55,7 @@ export class SsoApi {
     static async firebaseLogin (token: string){
         try{
             const response = await axios.post(`${ApiPrefix}/sso/firebaseLogin`, {token: token})
-            console.log(response)
+            return response
         }
         catch (err){
             throw err

@@ -10,9 +10,52 @@ export const FormContainer = styled.main`
     justify-content: center;
     align-items: center;
 
-    button.login-with-google{
+    .third-party-login{
         position: absolute;
-        
+        width: 45vh;
+        transform: translate(-1.15vh,18vh);
+        height: 14vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+
+        h3{
+            font-family: 'Inter', sans-serif
+        }
+
+        .bts-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1vh;
+
+            button{
+                width: 9vh;
+                height: 9vh;
+                background-color: #fff;
+                border: .3vh solid #000;
+                border-radius: 1vh;
+                cursor: pointer;
+                transition: .2s;
+
+                &:hover{
+                    box-shadow: 5px 5px 0px rgba(0,0,0,.3);
+                    border: none;
+                }
+
+                p{
+                    font-family: 'Bangers', serif;
+                }
+
+                img{
+                    width: 5vh;
+                }
+            }
+        }
     }
 
     section{
