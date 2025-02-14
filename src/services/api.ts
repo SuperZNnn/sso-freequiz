@@ -54,7 +54,7 @@ export class SsoApi {
     }
     static async firebaseLogin (token: string){
         try{
-            const response = await axios.post(`${ApiPrefix}/sso/firebaseLogin`, {token: token})
+            const response = await axios.post(`${ApiPrefix}/sso/firebaseLogin`, {token: token}, { withCredentials: true })
             return response
         }
         catch (err){
@@ -82,7 +82,7 @@ export class SsoApi {
     }
     static async resetPassword (email: string, token: string, password: string){
         try{
-            const response = await axios.post(`${ApiPrefix}/sso/changePassword/${email}/${token}`, {password: password})
+            const response = await axios.post(`${ApiPrefix}/sso/changePassword/${email}/${token}`, {password: password}, { withCredentials: true })
             return response
         }
         catch (err){
